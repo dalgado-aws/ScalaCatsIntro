@@ -1,7 +1,8 @@
-//OOP Programming Style
+// OOP Programming Style
 package toppackage
 
-//Collecting all the functions in one class. Similar to FP, separating data and functions.
+// Collecting all the functions in one class. Similar to FP, separating data and functions.
+// Dummy implementation
 class OOOrderProcessor {
 
   def processOrder(plainOrder: PlainOrder) = Status.Success

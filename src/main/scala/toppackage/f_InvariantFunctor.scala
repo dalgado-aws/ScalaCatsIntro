@@ -28,7 +28,8 @@ case class Yen (yenValue:Double)
 
 case class Pound(poundValue:Double)
 
-object InvariantFunctorExamples {
+object InvariantFunctorExamples extends App {
+
   val euroToPound = (e:Euro) => Pound(e.euroValue/2)
 
   val poundToEuro = (p:Pound) => Euro(p.poundValue *2)
@@ -43,9 +44,9 @@ object InvariantFunctorExamples {
 
   val euroAndPound = euroAndDollar.imap(euroToPound)(poundToEuro)
 
-  euroAndPound.toDollar(Pound(33))
+  println("euro and pound to dollar", euroAndPound.toDollar(Pound(33)))
 
   val anotherEuroAndDollar = euroAndPound.imap(poundToEuro)(euroToPound)
 
-  euroAndDollar.toDollar(Euro(33))
+  println("euro and dollar to dollar", euroAndDollar.toDollar(Euro(33)))
 }

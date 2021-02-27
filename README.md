@@ -1,1 +1,1 @@
-### Scala Cats Snippets for Blog Post
+### Scala Cats Snippets for Blog Posts at [lincolndalgado.com](lincolndalgado.com)

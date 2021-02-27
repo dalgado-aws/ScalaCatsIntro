@@ -1,20 +1,36 @@
-// FP Programming Style with Type Classed
+// FP Programming Style with Type Classes
 package toppackage
 
+// Type Class definition
 trait OrderSaver[A] {
+
   def saveOrder(value:A) :Int
+
 }
 
 // Type Class Instances
+// Dummy implementation
 object OrderSaverInstances {
 
-  implicit val plainOrderSaver:OrderSaver[PlainOrder] = (value: PlainOrder) => Status.Success
+  implicit val plainOrderSaver:OrderSaver[PlainOrder] = (value: PlainOrder) => {
 
-  implicit val expressOrderSaver:OrderSaver[ExpressOrder] = (value: ExpressOrder) => Status.Success
+    println("Saving PlainOrder"); Status.Success
+  }
 
-  implicit val orderBasketSaver:OrderSaver[List[PlainOrder]] = (orderBasket: List[PlainOrder]) => Status.Success
+  implicit val expressOrderSaver:OrderSaver[ExpressOrder] = (value: ExpressOrder) => {
 
- implicit val marsOrderSaver:OrderSaver[UnrelatedMarsOder] = (value: UnrelatedMarsOder) => Status.Success
+    println("Saving ExpressOrder"); Status.Success
+  }
+
+  implicit val orderBasketSaver:OrderSaver[List[PlainOrder]] = (orderBasket: List[PlainOrder]) => {
+
+    println("Saving List[PlainOrder]"); Status.Success
+  }
+
+ implicit val marsOrderSaver:OrderSaver[UnrelatedMarsOder] = (value: UnrelatedMarsOder) => {
+
+   println("Saving MarsOrder"); Status.Success
+ }
 
   // Interface Definition - Connecting Instances to Types
   def saveOrder[A](a:A)(implicit orderSaverInstance:OrderSaver[A]) = orderSaverInstance.saveOrder(a)
@@ -23,28 +39,23 @@ object OrderSaverInstances {
   implicit class OrderSaverInterfaceSyntax[A](value:A) {
 
     def save(implicit saver:OrderSaver[A]) = saver.saveOrder(value)
-
   }
 
-  //making a Type Class instance for Int
+  // Making a Type Class instance for Int
   implicit val intOrderSaver:OrderSaver[Int] = (value:Int)=>Status.Success
-
 }
 
 // Testing Type Classes
-object TestFunctionalOrderSaver {
+object TestFunctionalOrderSaver extends App {
 
   import OrderSaverInstances._
 
-  def saveOrders (): Unit = {
+  val plainOrder = new PlainOrder(1,2,3)
 
-    val plainOrder = new PlainOrder(1,2,3)
+  OrderSaverInstances.saveOrder(plainOrder)
 
-    OrderSaverInstances.saveOrder(plainOrder)
+  plainOrder.save
 
-    plainOrder.save
-
-    1.save
-  }
+  1.save
 }
 
